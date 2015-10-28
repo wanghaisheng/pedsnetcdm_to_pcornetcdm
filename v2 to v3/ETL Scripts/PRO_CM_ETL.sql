@@ -4,6 +4,8 @@
 
 --drop table if exists pcornet_cdm.pro_cm;
 
+set search_path to pedsnet_cdm;
+
 Insert into pcornet_cdm.pro_cm(
 	patid, encounterid,
 	pro_item, pro_loinc,
@@ -29,7 +31,7 @@ select
 	c1.concept_code as raw_pro_code, -- LOINC code
 	o.value_as_text as raw_pro_response
 from
-	observation o
+	pedsnet_cdm.observation o
 	join demographics d on on o.person_id = d.patid
 	join pcornet_cdm.cz_omop_pcornet_concept_map m1 on o.observation_concept_id = m1.standard_concept_id and m1.source_concept_class = 'PRO Item'
 	join concept c1 on o.observation_concept_id = c1.concept_id
